@@ -1,7 +1,7 @@
 package com.artezio.register.controller;
 
 import com.artezio.register.model.dto.UserDto;
-import com.artezio.register.service.impl.EventService;
+import com.artezio.register.service.EventService;
 import com.artezio.register.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
