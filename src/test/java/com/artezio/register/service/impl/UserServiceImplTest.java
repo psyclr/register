@@ -26,22 +26,17 @@ class UserServiceImplTest {
     private UserRepository repository;
     @Captor
     protected ArgumentCaptor<Object> publishEventCaptor;
-    private UserService userService;
 
     @Before
     public void setup(){
         MockitoAnnotations.initMocks(this);
-
     }
 
     @Test
-    void saveApproved() {
-        userService = new UserServiceImpl(repository, eventPublisher);
+    void when_user_valid_then_push_event() {
+        UserService userService = new UserServiceImpl(repository, eventPublisher);
         userService.saveUser(UserDto.builder()
                 .login("login").email("email").password("password").name("name").build());
         Mockito.verify(eventPublisher).publishMessageEvent(publishEventCaptor.capture());
-
-        List<Object> capturedEvents = publishEventCaptor.getAllValues();
-        Object o = capturedEvents.get(0);
     }
 }

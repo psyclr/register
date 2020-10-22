@@ -8,12 +8,11 @@ import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-
+@Getter
+@Setter
 @Entity(name = "user")
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
 public class User extends AbstractEntity {
     @Column
     private String login;
