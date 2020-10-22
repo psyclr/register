@@ -1,0 +1,35 @@
+package com.artezio.register.model.entity;
+
+import com.artezio.register.model.dto.UserDto;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+
+@Entity(name = "user")
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+public class User extends AbstractEntity {
+    @Column
+    private String login;
+    @Column
+    private String password;
+    @Column
+    private String email;
+    @Column
+    private String name;
+
+    public User(UserDto user) {
+        this.email = user.getEmail();
+        this.login = user.getLogin();
+        this.password = user.getPassword();
+        this.name = user.getEmail();
+    }
+}
+
+
