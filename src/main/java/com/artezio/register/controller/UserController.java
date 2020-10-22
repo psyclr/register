@@ -1,7 +1,6 @@
 package com.artezio.register.controller;
 
 import com.artezio.register.model.dto.UserDto;
-import com.artezio.register.model.entity.User;
 import com.artezio.register.service.impl.EventService;
 import com.artezio.register.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -19,9 +18,7 @@ public class UserController {
     private final EventService eventService;
 
     @PostMapping("/save")
-    public ResponseEntity saveUser(UserDto user){
-
-        User user1 = userService.saveApproved(eventService.sendApprove(user););
-        return user1
+    public ResponseEntity<UserDto> saveUser(UserDto user){
+        return  ResponseEntity.ok(userService.saveUser(user));
     }
 }

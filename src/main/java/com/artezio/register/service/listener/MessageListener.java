@@ -8,6 +8,6 @@ import com.artezio.register.model.dto.Message;
  *
  * @param <T> тип сообщений, которые будем слушать.
  */
-public interface MessageListener<T> {
-    void handleMessage(Message<T> incomingMessage);
+public interface MessageListener {
+    void handleMessage(Message incomingMessage);
 }

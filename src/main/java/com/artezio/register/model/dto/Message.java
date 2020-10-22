@@ -1,9 +1,11 @@
 package com.artezio.register.model.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-public class Message<T> {
-    T message;
+@AllArgsConstructor
+public class Message {
+    String message;
     MessageStatus status;
 }
