@@ -1,6 +1,7 @@
 package com.artezio.register.service.impl;
 
 import com.artezio.register.event.publisher.UserEventPublisher;
+import com.artezio.register.mapper.UserMapper;
 import com.artezio.register.model.dto.UserDto;
 import com.artezio.register.repository.UserRepository;
 import com.artezio.register.service.UserService;
@@ -24,17 +25,19 @@ class UserServiceImplTest {
     private UserEventPublisher eventPublisher;
     @MockBean
     private UserRepository repository;
+    @MockBean
+    private UserMapper mapper;
     @Captor
     protected ArgumentCaptor<Object> publishEventCaptor;
 
     @Before
-    public void setup(){
+    public void setup() {
         MockitoAnnotations.initMocks(this);
     }
 
     @Test
     void when_user_valid_then_push_event() {
-        UserService userService = new UserServiceImpl(repository, eventPublisher);
+        UserService userService = new UserServiceImpl(repository, eventPublisher, mapper);
         userService.saveUser(UserDto.builder()
                 .login("login").email("email").password("password").name("name").build());
         Mockito.verify(eventPublisher).publishMessageEvent(publishEventCaptor.capture());

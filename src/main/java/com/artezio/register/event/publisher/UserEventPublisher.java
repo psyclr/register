@@ -14,6 +14,6 @@ public class UserEventPublisher {
     private final ApplicationEventPublisher applicationEventPublisher;
 
     public void publishMessageEvent(final Object message) {
-        applicationEventPublisher.publishEvent(eventFactory.createEvent(message, NEW.name()));
+        applicationEventPublisher.publishEvent(eventFactory.createEvent(message, NEW));
     }
 }
