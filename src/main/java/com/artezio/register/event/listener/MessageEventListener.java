@@ -1,41 +1,55 @@
 package com.artezio.register.event.listener;
 
+import com.artezio.register.mailer.impl.SendMailerStub;
+import com.artezio.register.messaging.MessagingServiceStub;
+import com.artezio.register.model.event.Message;
 import com.artezio.register.model.event.ReceivedEvent;
 import com.artezio.register.model.event.SendEvent;
-import com.artezio.register.mailer.EmailAddress;
-import com.artezio.register.mailer.EmailContent;
-import com.artezio.register.mailer.SendMailer;
-import com.artezio.register.model.dto.UserDto;
-import com.artezio.register.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
 import java.util.concurrent.TimeoutException;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
 public class MessageEventListener {
-    SendMailer mailer;
-    UserService userService;
+    private final SendMailerStub mailerStub;
+    private final MessagingServiceStub messagingStub;
 
-    @EventListener
-    public void listenSentApprovalEvent(SendEvent sendEvent) {
-        log.info("STARTED TO LISTEN  :" + sendEvent.getSource().toString() + " ");
+    @EventListener({SendEvent.class})
+    public void listenSentEvent(SendEvent sendEvent) {
+        Message message = (Message) sendEvent.getSource();
+        nullCheck(message);
+        log.info("Received new message " + message.toString());
+        messagingStub.approveAndSend(message.getUser());
     }
 
-    @EventListener
-    public void listenReceivedEvent(ReceivedEvent receivedEvent) {
-        UserDto user = userService.getById(UUID.fromString(receivedEvent.getSource().toString()));
+    private void trySendMail(Message message) throws TimeoutException {
+        mailerStub.sendMail(message.getUser(), message.getStatus());
+    }
 
+    @EventListener({ReceivedEvent.class})
+    public void listenReceivedEvent(ReceivedEvent receivedApprovalEvent) {
+        Message message = (Message) receivedApprovalEvent.getSource();
+        nullCheck(message);
+        log.info("Received new message " + message.toString());
         try {
-            mailer.sendMail(new EmailAddress(user.getEmail()), new EmailContent(""));
-        } catch (TimeoutException e) {
-            log.error("There was an exceptional situation: {}, try again later: ", e.getMessage());
+            trySendMail(message);
+        } catch (TimeoutException firstEx) {
+            try {
+                trySendMail(message);
+            } catch (TimeoutException secondEx) {
+                log.error("Something went wrong {}, please try again later: ", secondEx.getMessage());
+            }
         }
     }
 
+    private void nullCheck(Message object) {
+        if (object == null) {
+            throw new NullPointerException(Message.class.getSimpleName());
+        }
+    }
 }

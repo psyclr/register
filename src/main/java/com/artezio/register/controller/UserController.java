@@ -1,7 +1,7 @@
 package com.artezio.register.controller;
 
 import com.artezio.register.model.dto.UserDto;
-import com.artezio.register.service.EventService;
+import com.artezio.register.service.impl.EventServiceImpl;
 import com.artezio.register.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     private final UserService userService;
-    private final EventService eventService;
+    private final EventServiceImpl eventServiceImpl;
 
     @PostMapping("/save")
     public ResponseEntity<UserDto> saveUser(@RequestBody @Validated UserDto user){

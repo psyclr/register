@@ -1,6 +1,7 @@
 package com.artezio.register.event.publisher;
 
 import com.artezio.register.event.EventFactory;
+import com.artezio.register.model.dto.MessageStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
@@ -13,7 +14,7 @@ public class UserEventPublisher {
     EventFactory eventFactory;
     private final ApplicationEventPublisher applicationEventPublisher;
 
-    public void publishMessageEvent(final Object message) {
-        applicationEventPublisher.publishEvent(eventFactory.createEvent(message, NEW));
+    public void publishMessageEvent(final Object message, MessageStatus status) {
+        applicationEventPublisher.publishEvent(eventFactory.createEvent(message, status));
     }
 }

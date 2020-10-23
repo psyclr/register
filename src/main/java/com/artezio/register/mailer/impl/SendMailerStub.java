@@ -1,8 +1,11 @@
 package com.artezio.register.mailer.impl;
 
-import com.artezio.register.mailer.EmailAddress;
-import com.artezio.register.mailer.EmailContent;
+import com.artezio.register.event.publisher.UserEventPublisher;
 import com.artezio.register.mailer.SendMailer;
+import com.artezio.register.model.dto.MessageStatus;
+import com.artezio.register.model.dto.UserDto;
+import com.artezio.register.model.event.Message;
+import com.artezio.register.service.EventService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.slf4j.Logger;
@@ -17,10 +20,10 @@ import java.util.concurrent.TimeoutException;
 @RequiredArgsConstructor
 public class SendMailerStub implements SendMailer {
     Logger logger = LoggerFactory.getLogger(SendMailerStub.class);
-
+    private final EventService eventService;
 
     @Override
-    public void sendMail(EmailAddress toAddress, EmailContent messageBody) throws TimeoutException {
+    public void sendMail(UserDto user, MessageStatus status) throws TimeoutException {
         if (shouldThrowTimeout()) {
             sleep();
 
@@ -32,7 +35,8 @@ public class SendMailerStub implements SendMailer {
         }
 
         // ok.
-        logger.info("Message sent to {}, body {}.", toAddress, messageBody);
+        logger.info("Message sent to {}, body {}.", user.getEmail(), status);
+        eventService.send(user, status);
     }
 
     @SneakyThrows

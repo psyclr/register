@@ -8,8 +8,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class UserAlreadyExistException extends RuntimeException {
+
     public UserAlreadyExistException(String message) {
-        super(message);
+        super("User with login" + message + " already exists");
     }
 
 }

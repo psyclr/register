@@ -1,26 +1,22 @@
 package com.artezio.register.service;
 
 import com.artezio.register.event.publisher.UserEventPublisher;
-import com.artezio.register.exception.UserAlreadyExistException;
-import com.artezio.register.mapper.UserMapper;
+import com.artezio.register.model.dto.MessageStatus;
 import com.artezio.register.model.dto.UserDto;
-import com.artezio.register.model.entity.User;
-import com.artezio.register.repository.UserRepository;
-import org.junit.Assert;
+import com.artezio.register.model.event.Message;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
-import org.mockito.*;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.Random;
-import java.util.UUID;
-
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
@@ -28,14 +24,12 @@ import static org.mockito.Mockito.*;
 class UserServiceImplTest {
     @MockBean
     private UserEventPublisher eventPublisher;
-    @Mock
-    private UserRepository repository;
     @Autowired
-    private UserMapper mapper;
-    User user;
+    private EventService eventService;
     @Captor
-    protected ArgumentCaptor<Object> publishEventCaptor;
-
+    protected ArgumentCaptor<Message> publishEventCaptor;
+    @Captor
+    protected ArgumentCaptor<MessageStatus> statusArgumentCaptor;
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
@@ -43,37 +37,23 @@ class UserServiceImplTest {
     }
 
     @Test
-    void when_user_valid_then_push_event() {
-        doAnswer(new AssignIdToArticleAnswer(UUID.randomUUID())).when(repository).save(any(User.class));
+    public void pushEvent() {
+        UserDto user = UserDto.builder().login("login").email("email@email").password("passwordPassword").build();
+        MessageStatus status = MessageStatus.NEW;
 
-        UserService userService = new UserServiceImpl(repository, eventPublisher, mapper);
-        UserDto userDto = UserDto.builder().name("name").login("login").password("pass").email("email").build();
-        userService.saveUser(userDto);
-        Mockito.verify(eventPublisher).publishMessageEvent(publishEventCaptor.capture());
-    }
+        doAnswer(invocation -> {
+            Message messageValue = publishEventCaptor.getValue();
+            assertNotNull(messageValue);
+            assertEquals(messageValue.getUser(), user);
 
-    @Test
-    void when_user_exists_then_exception() {
-        UserService userService = new UserServiceImpl(repository, eventPublisher, mapper);
-        UserDto user = UserDto.builder()
-                .login("login").email("email").password("password").name("name").build();
-        userService.saveUser(user);
-        Assert.assertThrows(UserAlreadyExistException.class, () -> userService.saveUser(user));
-    }
-
-    public class AssignIdToArticleAnswer implements Answer<Void> {
-
-        private final UUID id;
-
-        public AssignIdToArticleAnswer(UUID id) {
-            this.id = id;
-        }
-
-        @Override
-        public Void answer(InvocationOnMock invocation) throws Throwable {
-            User user = (User) invocation.getArguments()[0];
-            user.setId(id);
+            MessageStatus messageStatus = statusArgumentCaptor.getValue();
+            assertNotNull(messageStatus);
+            assertEquals(messageStatus, status);
             return null;
-        }
+        }).when(eventPublisher).publishMessageEvent(publishEventCaptor.capture(), statusArgumentCaptor.capture());
+
+        eventService.send(user, status);
+
+        verify(eventPublisher, times(1)).publishMessageEvent(Message.builder().user(user).build(), MessageStatus.NEW);
     }
 }

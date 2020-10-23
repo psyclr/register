@@ -22,13 +22,6 @@ public class User extends AbstractEntity {
     private String email;
     @Column
     private String name;
-
-    public User(UserDto user) {
-        this.email = user.getEmail();
-        this.login = user.getLogin();
-        this.password = user.getPassword();
-        this.name = user.getEmail();
-    }
 }
 
 
