@@ -5,11 +5,12 @@ import lombok.Data;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import java.util.UUID;
 
 @Data
 @Builder
 public class UserDto {
-    private Long id;
+    private UUID id;
     @NotBlank
     private String login;
     @NotBlank

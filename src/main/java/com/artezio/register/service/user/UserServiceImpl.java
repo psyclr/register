@@ -1,6 +1,5 @@
 package com.artezio.register.service.user;
 
-import com.artezio.register.exception.UserAlreadyExistException;
 import com.artezio.register.exception.UserNotFoundException;
 import com.artezio.register.service.mapper.UserMapper;
 import com.artezio.register.dto.MessageStatus;
@@ -39,16 +38,8 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public UserDto saveUser(@NotNull UserDto userDto) {
         User mapped = mapper.mapToEntity(userDto);
-        checkExistingUser(userDto);
         User saved = userRepository.save(mapped);
         eventService.send(userDto, MessageStatus.NEW);
         return mapper.mapToDto(saved);
-    }
-
-    private void checkExistingUser(@NotNull UserDto userDto) {
-        userRepository.findByLogin(userDto.getLogin())
-                .ifPresent(user -> {
-                    throw new UserAlreadyExistException(user.getLogin());
-                });
     }
 }

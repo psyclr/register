@@ -1,6 +1,5 @@
-package com.artezio.register.controller.advice;
+package com.artezio.register.exception;
 
-import com.artezio.register.exception.UserAlreadyExistException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -9,13 +8,14 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
 
-import java.util.Arrays;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
 @RestControllerAdvice
-public class ExceptionsAdvice {
+public class ExceptionsHandler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -30,19 +30,12 @@ public class ExceptionsAdvice {
         return errors;
     }
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(UserAlreadyExistException.class)
-    public ResponseEntity<?> handleNotUniqueUserException(UserAlreadyExistException ex) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(ex.getMessage());
-    }
-
     @ExceptionHandler({Throwable.class})
-    public ResponseEntity<?> handleInternalServerError(Throwable ex) {
-
+    public ResponseEntity<ExceptionInfo> handleInternalServerError(Throwable ex, WebRequest request) {
+        ExceptionInfo errorDetails = new ExceptionInfo(LocalDateTime.now(), ex.getMessage(),
+                request.getDescription(false));
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(ex.getMessage() + Arrays.toString(ex.getStackTrace()));
+                .body(errorDetails);
     }
 }
