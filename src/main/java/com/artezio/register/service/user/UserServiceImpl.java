@@ -2,7 +2,7 @@ package com.artezio.register.service.user;
 
 import com.artezio.register.exception.UserAlreadyExistException;
 import com.artezio.register.exception.UserNotFoundException;
-import com.artezio.register.mapper.UserMapper;
+import com.artezio.register.service.mapper.UserMapper;
 import com.artezio.register.dto.MessageStatus;
 import com.artezio.register.dto.UserDto;
 import com.artezio.register.entity.User;

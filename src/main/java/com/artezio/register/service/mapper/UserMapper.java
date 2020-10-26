@@ -1,4 +1,4 @@
-package com.artezio.register.mapper;
+package com.artezio.register.service.mapper;
 
 import com.artezio.register.dto.UserDto;
 import com.artezio.register.entity.User;
