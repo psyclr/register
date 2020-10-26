@@ -1,4 +1,4 @@
-package com.artezio.register.model.event;
+package com.artezio.register.dto;
 
 import org.springframework.context.ApplicationEvent;
 

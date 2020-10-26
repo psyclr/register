@@ -1,10 +1,10 @@
-package com.artezio.register.event.listener;
+package com.artezio.register.service.event.listener;
 
-import com.artezio.register.mailer.impl.SendMailerStub;
+import com.artezio.register.service.mail.MailSenderStub;
 import com.artezio.register.messaging.MessagingServiceStub;
-import com.artezio.register.model.event.Message;
-import com.artezio.register.model.event.ReceivedEvent;
-import com.artezio.register.model.event.SendEvent;
+import com.artezio.register.dto.Message;
+import com.artezio.register.dto.ReceivedEvent;
+import com.artezio.register.dto.SendEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
@@ -16,7 +16,7 @@ import java.util.concurrent.TimeoutException;
 @Slf4j
 @RequiredArgsConstructor
 public class MessageEventListener {
-    private final SendMailerStub mailerStub;
+    private final MailSenderStub mailerStub;
     private final MessagingServiceStub messagingStub;
 
     @EventListener({SendEvent.class})

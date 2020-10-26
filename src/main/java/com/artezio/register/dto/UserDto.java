@@ -1,4 +1,4 @@
-package com.artezio.register.model.dto;
+package com.artezio.register.dto;
 
 import lombok.Builder;
 import lombok.Data;

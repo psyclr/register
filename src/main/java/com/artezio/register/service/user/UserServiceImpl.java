@@ -1,17 +1,16 @@
-package com.artezio.register.service.impl;
+package com.artezio.register.service.user;
 
-import com.artezio.register.event.publisher.UserEventPublisher;
 import com.artezio.register.exception.UserAlreadyExistException;
 import com.artezio.register.exception.UserNotFoundException;
 import com.artezio.register.mapper.UserMapper;
-import com.artezio.register.model.dto.MessageStatus;
-import com.artezio.register.model.dto.UserDto;
-import com.artezio.register.model.entity.User;
+import com.artezio.register.dto.MessageStatus;
+import com.artezio.register.dto.UserDto;
+import com.artezio.register.entity.User;
 import com.artezio.register.repository.UserRepository;
-import com.artezio.register.service.EventService;
-import com.artezio.register.service.UserService;
+import com.artezio.register.service.event.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.constraints.NotNull;
 import java.util.UUID;
@@ -30,12 +29,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public UserDto getById(UUID id) {
         User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
         return mapper.mapToDto(user);
     }
 
     @Override
+    @Transactional
     public UserDto saveUser(@NotNull UserDto userDto) {
         User mapped = mapper.mapToEntity(userDto);
         checkExistingUser(userDto);

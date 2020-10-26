@@ -1,11 +1,8 @@
-package com.artezio.register.mailer.impl;
+package com.artezio.register.service.mail;
 
-import com.artezio.register.event.publisher.UserEventPublisher;
-import com.artezio.register.mailer.SendMailer;
-import com.artezio.register.model.dto.MessageStatus;
-import com.artezio.register.model.dto.UserDto;
-import com.artezio.register.model.event.Message;
-import com.artezio.register.service.EventService;
+import com.artezio.register.dto.MessageStatus;
+import com.artezio.register.dto.UserDto;
+import com.artezio.register.service.event.EventService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.slf4j.Logger;
@@ -18,8 +15,8 @@ import java.util.concurrent.TimeoutException;
 
 @Service
 @RequiredArgsConstructor
-public class SendMailerStub implements SendMailer {
-    Logger logger = LoggerFactory.getLogger(SendMailerStub.class);
+public class MailSenderStub implements MailSender {
+    Logger logger = LoggerFactory.getLogger(MailSenderStub.class);
     private final EventService eventService;
 
     @Override

@@ -1,9 +1,10 @@
 package com.artezio.register.service;
 
-import com.artezio.register.event.publisher.UserEventPublisher;
-import com.artezio.register.model.dto.MessageStatus;
-import com.artezio.register.model.dto.UserDto;
-import com.artezio.register.model.event.Message;
+import com.artezio.register.service.event.publisher.UserEventPublisher;
+import com.artezio.register.dto.MessageStatus;
+import com.artezio.register.dto.UserDto;
+import com.artezio.register.dto.Message;
+import com.artezio.register.service.event.EventService;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;

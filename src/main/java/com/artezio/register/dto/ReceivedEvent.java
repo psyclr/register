@@ -1,4 +1,4 @@
-package com.artezio.register.model.event;
+package com.artezio.register.dto;
 
 public class ReceivedEvent extends AbstractApprovalEvent {
     public ReceivedEvent(Object source) {

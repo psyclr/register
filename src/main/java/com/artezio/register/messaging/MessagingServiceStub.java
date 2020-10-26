@@ -1,16 +1,16 @@
 package com.artezio.register.messaging;
 
-import com.artezio.register.event.publisher.UserEventPublisher;
-import com.artezio.register.model.dto.MessageStatus;
-import com.artezio.register.model.dto.UserDto;
-import com.artezio.register.model.event.Message;
+import com.artezio.register.service.event.publisher.UserEventPublisher;
+import com.artezio.register.dto.MessageStatus;
+import com.artezio.register.dto.UserDto;
+import com.artezio.register.dto.Message;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotNull;
 
-import static com.artezio.register.model.dto.MessageStatus.FAILED;
-import static com.artezio.register.model.dto.MessageStatus.SUCCESSFUL;
+import static com.artezio.register.dto.MessageStatus.FAILED;
+import static com.artezio.register.dto.MessageStatus.SUCCESSFUL;
 
 @Service
 @RequiredArgsConstructor

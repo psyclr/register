@@ -1,6 +1,6 @@
 package com.artezio.register.repository;
 
-import com.artezio.register.model.entity.User;
+import com.artezio.register.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

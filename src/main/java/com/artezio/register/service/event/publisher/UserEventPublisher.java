@@ -1,12 +1,10 @@
-package com.artezio.register.event.publisher;
+package com.artezio.register.service.event.publisher;
 
-import com.artezio.register.event.EventFactory;
-import com.artezio.register.model.dto.MessageStatus;
+import com.artezio.register.service.factory.EventFactory;
+import com.artezio.register.dto.MessageStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
-
-import static com.artezio.register.model.dto.MessageStatus.NEW;
 
 @Component
 @RequiredArgsConstructor

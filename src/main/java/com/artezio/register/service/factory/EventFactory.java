@@ -1,9 +1,9 @@
-package com.artezio.register.event;
+package com.artezio.register.service.factory;
 
-import com.artezio.register.model.event.AbstractApprovalEvent;
-import com.artezio.register.model.event.ReceivedEvent;
-import com.artezio.register.model.event.SendEvent;
-import com.artezio.register.model.dto.MessageStatus;
+import com.artezio.register.dto.AbstractApprovalEvent;
+import com.artezio.register.dto.ReceivedEvent;
+import com.artezio.register.dto.SendEvent;
+import com.artezio.register.dto.MessageStatus;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotNull;

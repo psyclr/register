@@ -1,4 +1,4 @@
-package com.artezio.register.mailer;
+package com.artezio.register.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

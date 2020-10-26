@@ -1,6 +1,5 @@
-package com.artezio.register.model.entity;
+package com.artezio.register.entity;
 
-import com.artezio.register.model.dto.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

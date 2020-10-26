@@ -1,7 +1,7 @@
 package com.artezio.register.controller;
 
-import com.artezio.register.model.dto.UserDto;
-import com.artezio.register.service.UserService;
+import com.artezio.register.dto.UserDto;
+import com.artezio.register.service.user.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

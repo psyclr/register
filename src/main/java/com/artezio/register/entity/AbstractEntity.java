@@ -1,4 +1,4 @@
-package com.artezio.register.model.entity;
+package com.artezio.register.entity;
 
 import lombok.Getter;
 import lombok.Setter;
